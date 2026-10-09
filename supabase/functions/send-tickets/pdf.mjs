@@ -1,5 +1,3 @@
-import { PDFDocument, rgb } from 'pdf-lib';
-import fontkit from '@pdf-lib/fontkit';
 import { fontBase64 } from './fonts/noto-sans.mjs';
 import { ticketFields } from './tickets.mjs';
 
@@ -24,8 +22,10 @@ export function wrapText(text, font, size, width) {
   return lines;
 }
 
-export async function renderTicketsPdf(tickets) {
+export async function renderTicketsPdf(tickets, dependencies) {
   if (!tickets.length) throw new Error('No tickets to render');
+  const { PDFDocument, rgb } = dependencies || await import('pdf-lib');
+  const fontkit = dependencies?.fontkit || (await import('@pdf-lib/fontkit')).default;
   const document = await PDFDocument.create();
   // Stable metadata is required: a retry must attach exactly the same bytes.
   document.setCreationDate(fixedDate);

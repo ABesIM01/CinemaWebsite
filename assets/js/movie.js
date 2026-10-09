@@ -49,6 +49,9 @@ document.querySelectorAll(".hall-rows").forEach((rows) => {
     }));
     targetDialog.querySelector(".payment-total").textContent = money(total(seats));
     targetDialog.showModal();
+    const firstControl = [...targetDialog.querySelectorAll('button, a[href]')]
+      .find((control) => !control.disabled && control.getClientRects().length);
+    firstControl?.focus({ preventScroll: true });
   }
   selectionMore.addEventListener("click", () => showOrder(selectionDialog));
   pay.addEventListener("click", () => showOrder(dialog));

@@ -19,6 +19,12 @@
 Обрати сеанс|Choose a showtime
 Реєстрація|Sign up
 Надіслати квитки на пошту|Email tickets
+Згенерувати PDF-квитки|Generate PDF tickets
+Генеруємо PDF-квитки…|Generating PDF tickets…
+Завантажити квитки у PDF|Download PDF tickets
+Тестовий режим: згенеруйте PDF-квитки для завантаження. Лист на пошту не надсилається.|Test mode: generate PDF tickets to download. No email is sent.
+Тестовий режим: натисніть «Оплатити», щоб перейти до створення PDF-квитків. Гроші не списуються.|Test mode: click “Pay” to generate PDF tickets. No money is charged.
+Тестовий режим: PDF-квитки готові до завантаження. Лист на пошту не надсилався. Гроші не списувалися, місця не заброньовано.|Test mode: PDF tickets are ready to download. No email was sent. No money was charged and no seats were booked.
 Не вдалося сформувати PDF-квитки. Спробуйте ще раз.|Could not generate PDF tickets. Please try again.
 Натисніть «Оплатити», щоб перейти до надсилання квитків.|Click “Pay” to proceed to emailing your tickets.
 Демонстраційну оплату підтверджено. Тепер можна надіслати квитки на пошту.|Demo payment confirmed. You can now email your tickets.

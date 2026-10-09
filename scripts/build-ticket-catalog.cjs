@@ -38,7 +38,10 @@ for (const file of fs.readdirSync('pages/movies').filter((name) => name.endsWith
     html = html.replace(/[ \t]*<p class="ticket-status" role="status" aria-live="polite"><\/p>\r?\n/, '');
     html = html.replace('<div class="ticket-preview"></div>', '<p class="ticket-status" role="status" aria-live="polite"></p>\n          <div class="ticket-preview"></div>');
   }
-  fs.writeFileSync(filename, html.replace(/[ \t]+\r?$/gm, ''));
+  if (!html.includes('class="button-primary ticket-download"')) {
+    html = html.replace('<div class="ticket-preview"></div>', '<a class="button-primary ticket-download" hidden>Завантажити квитки у PDF</a>\n          <div class="ticket-preview"></div>');
+  }
+  fs.writeFileSync(filename, html.replace(/\sautofocus\b/g, '').replace(/[ \t]+\r?$/gm, ''));
 }
 fs.mkdirSync('supabase/functions/send-tickets', { recursive: true });
 fs.writeFileSync('supabase/functions/send-tickets/catalog.json', JSON.stringify(catalog, null, 2) + '\n');
