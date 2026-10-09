@@ -7,6 +7,7 @@
     <title>КАДР — Афіша кінотеатру</title>
     <link rel="preconnect" href="https://www.youtube.com" />
     <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/cinemas.css" />
     <noscript
       ><style>
         .feature:not(.is-active) {
@@ -19,8 +20,12 @@
     >
     <script src="assets/js/theme.js"></script>
     <script src="assets/js/components/layout.js" defer></script>
+    <script src="assets/js/i18n.js" defer></script>
     <script src="assets/js/common.js" defer></script>
+    <script src="assets/js/auth-config.js" defer></script>
+    <script src="assets/js/auth.js" defer></script>
     <script src="assets/js/home.js" defer></script>
+    <script src="assets/js/cinemas.js" defer></script>
   </head>
   <body>
     <div data-site-header></div>
@@ -376,10 +381,10 @@
                   >
                 </div>
                 <div>
-                  <span class="session-label">ВІЛЬНО</span><span>42 місця</span>
+                  <span class="session-label">ВІЛЬНО</span><span>36 місць</span>
                 </div>
                 <div>
-                  <span class="session-label">КВИТОК</span
+                  <span class="session-label">ЗВИЧАЙНЕ</span
                   ><strong>220 <small>₴</small></strong>
                 </div>
               </div>
@@ -413,10 +418,10 @@
                   >
                 </div>
                 <div>
-                  <span class="session-label">ВІЛЬНО</span><span>18 місць</span>
+                  <span class="session-label">ВІЛЬНО</span><span>16 місць</span>
                 </div>
                 <div>
-                  <span class="session-label">КВИТОК</span
+                  <span class="session-label">ЗВИЧАЙНЕ</span
                   ><strong>250 <small>₴</small></strong>
                 </div>
               </div>
@@ -452,10 +457,10 @@
                   >
                 </div>
                 <div>
-                  <span class="session-label">ВІЛЬНО</span><span>56 місць</span>
+                  <span class="session-label">ВІЛЬНО</span><span>48 місць</span>
                 </div>
                 <div>
-                  <span class="session-label">КВИТОК</span
+                  <span class="session-label">ЗВИЧАЙНЕ</span
                   ><strong>180 <small>₴</small></strong>
                 </div>
               </div>
@@ -490,10 +495,10 @@
                 </div>
                 <div>
                   <span class="session-label">ВІЛЬНО</span
-                  ><span class="few-seats">8 місць</span>
+                  ><span class="few-seats">7 місць</span>
                 </div>
                 <div>
-                  <span class="session-label">КВИТОК</span
+                  <span class="session-label">ЗВИЧАЙНЕ</span
                   ><strong>200 <small>₴</small></strong>
                 </div>
               </div>
@@ -531,10 +536,10 @@
                   >
                 </div>
                 <div>
-                  <span class="session-label">ВІЛЬНО</span><span>32 місця</span>
+                  <span class="session-label">ВІЛЬНО</span><span>26 місць</span>
                 </div>
                 <div>
-                  <span class="session-label">КВИТОК</span
+                  <span class="session-label">ЗВИЧАЙНЕ</span
                   ><strong>170 <small>₴</small></strong>
                 </div>
               </div>
@@ -568,15 +573,39 @@
                   >
                 </div>
                 <div>
-                  <span class="session-label">ВІЛЬНО</span><span>24 місця</span>
+                  <span class="session-label">ВІЛЬНО</span><span>20 місць</span>
                 </div>
                 <div>
-                  <span class="session-label">КВИТОК</span
+                  <span class="session-label">ЗВИЧАЙНЕ</span
                   ><strong>240 <small>₴</small></strong>
                 </div>
               </div>
             </div>
           </article>
+        </div>
+      </section>
+      <section class="nearby-cinemas" id="cinemas" aria-labelledby="cinemas-title">
+        <div class="cinemas-map" id="cinemas-map" aria-label="Карта кінотеатрів">
+          <iframe
+            title="Кінотеатри на карті Google"
+            src="https://www.google.com/maps?q=%D0%BA%D1%96%D0%BD%D0%BE%D1%82%D0%B5%D0%B0%D1%82%D1%80%D0%B8%20%D0%9A%D0%B8%D1%97%D0%B2&amp;output=embed&amp;hl=uk"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+        <div class="cinemas-content">
+          <p class="cinemas-eyebrow">КІНО ПОРУЧ</p>
+          <h2 id="cinemas-title">Знайдіть найближчий кінотеатр</h2>
+          <p class="cinemas-description">Дозвольте визначити ваше розташування — знайдемо кінотеатри будь-якої мережі поблизу.</p>
+          <div class="cinemas-actions">
+            <button class="round-link" id="find-cinemas" type="button">Знайти поруч</button>
+            <a id="cinemas-google-link" href="https://www.google.com/maps/search/?api=1&amp;query=%D0%BA%D1%96%D0%BD%D0%BE%D1%82%D0%B5%D0%B0%D1%82%D1%80%D0%B8%20%D0%9A%D0%B8%D1%97%D0%B2" target="_blank" rel="noopener noreferrer">Відкрити Google Maps ↗</a>
+          </div>
+          <p class="cinemas-status" id="cinemas-status" role="status" aria-live="polite">На карті — кінотеатри Києва. Натисніть «Знайти поруч» для пошуку біля вас.</p>
+          <ol class="cinemas-results" id="cinemas-results" aria-label="Найближчі кінотеатри"></ol>
+          <p class="cinemas-attribution">Дані кінотеатрів: <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">© OpenStreetMap contributors</a>. Карта — Google Maps.</p>
+          <noscript><p>Для геолокації увімкніть JavaScript або скористайтеся посиланням Google Maps.</p></noscript>
         </div>
       </section>
       <section class="closing" id="about" aria-labelledby="about-title">

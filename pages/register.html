@@ -9,30 +9,52 @@
     <link rel="stylesheet" href="../assets/css/register.css" />
     <script src="../assets/js/theme.js"></script>
     <script src="../assets/js/components/layout.js" defer></script>
+    <script src="../assets/js/i18n.js" defer></script>
     <script src="../assets/js/common.js" defer></script>
+    <script src="../assets/js/auth-config.js" defer></script>
+    <script src="../assets/js/auth.js" defer></script>
   </head>
   <body class="registration-page">
     <div data-site-header></div>
     <main class="registration-main shell">
       <section class="registration-panel" aria-labelledby="registration-title">
-        <h1 id="registration-title">Створіть обліковий запис</h1>
-        <p class="registration-intro">Введіть електронну пошту або номер телефону.</p>
-        <div class="registration-fields">
-          <label class="sr-only" for="registration-contact">Електронна пошта або мобільний номер</label>
-          <input id="registration-contact" type="text" autocomplete="username" placeholder="Ел. пошта або моб. номер" aria-describedby="registration-note" />
-          <button class="registration-continue" type="button" aria-disabled="true" aria-describedby="registration-note">Продовжити</button>
+        <h1 id="registration-title">Реєстрація та вхід</h1>
+        <p class="registration-intro">Увійдіть за кодом із листа або через Google. Якщо акаунта ще немає, створимо його автоматично.</p>
+        <div id="registration-methods">
+          <form class="registration-fields" id="registration-email-form">
+            <label for="registration-contact">Електронна пошта</label>
+            <input id="registration-contact" name="email" type="email" required disabled maxlength="254" autocomplete="email" placeholder="name@example.com" aria-describedby="registration-note" />
+            <button class="registration-continue" type="submit" disabled>Надіслати код</button>
+          </form>
+          <form class="registration-fields" id="registration-code-form" hidden>
+            <p>Введіть код із листа для <strong id="registration-email" data-no-translate></strong>.</p>
+            <label for="registration-code">Код підтвердження</label>
+            <input id="registration-code" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6,10}" minlength="6" maxlength="10" required aria-describedby="registration-note" />
+            <button class="registration-continue" type="submit">Підтвердити та увійти</button>
+            <div class="registration-code-actions">
+              <button class="registration-secondary" id="registration-resend" type="button">Надіслати код повторно</button>
+              <button class="registration-secondary" id="registration-change" type="button">Змінити пошту</button>
+            </div>
+          </form>
+          <div id="registration-alternatives">
+            <div class="registration-divider"><span>або</span></div>
+            <button class="registration-google" type="button" disabled>
+              <svg viewBox="0 0 48 48" width="22" height="22" aria-hidden="true">
+                <path fill="#4285F4" d="M43.6 24.46c0-1.45-.13-2.84-.37-4.18H24v7.91h11a9.4 9.4 0 0 1-4.08 6.18v5.14h6.6c3.86-3.56 6.08-8.8 6.08-15.05Z"/>
+                <path fill="#34A853" d="M24 44c5.5 0 10.12-1.82 13.5-4.95l-6.6-5.14c-1.83 1.23-4.17 1.97-6.9 1.97-5.31 0-9.82-3.58-11.43-8.41H5.75v5.3A20.4 20.4 0 0 0 24 44Z"/>
+                <path fill="#FBBC05" d="M12.57 27.47a12.2 12.2 0 0 1 0-7.76v-5.3H5.75a20.4 20.4 0 0 0 0 18.36l6.82-5.3Z"/>
+                <path fill="#EA4335" d="M24 11.29c3 0 5.69 1.03 7.81 3.05l5.86-5.86A19.6 19.6 0 0 0 24 3.59a20.4 20.4 0 0 0-18.25 10.82l6.82 5.3C14.18 14.88 18.69 11.29 24 11.29Z"/>
+              </svg>
+              Зареєструватися через Google
+            </button>
+          </div>
         </div>
-        <div class="registration-divider"><span>або</span></div>
-        <button class="registration-google" type="button" aria-disabled="true" aria-describedby="registration-note">
-          <svg viewBox="0 0 48 48" width="22" height="22" aria-hidden="true">
-            <path fill="#4285F4" d="M43.6 24.46c0-1.45-.13-2.84-.37-4.18H24v7.91h11a9.4 9.4 0 0 1-4.08 6.18v5.14h6.6c3.86-3.56 6.08-8.8 6.08-15.05Z"/>
-            <path fill="#34A853" d="M24 44c5.5 0 10.12-1.82 13.5-4.95l-6.6-5.14c-1.83 1.23-4.17 1.97-6.9 1.97-5.31 0-9.82-3.58-11.43-8.41H5.75v5.3A20.4 20.4 0 0 0 24 44Z"/>
-            <path fill="#FBBC05" d="M12.57 27.47a12.2 12.2 0 0 1 0-7.76v-5.3H5.75a20.4 20.4 0 0 0 0 18.36l6.82-5.3Z"/>
-            <path fill="#EA4335" d="M24 11.29c3 0 5.69 1.03 7.81 3.05l5.86-5.86A19.6 19.6 0 0 0 24 3.59a20.4 20.4 0 0 0-18.25 10.82l6.82 5.3C14.18 14.88 18.69 11.29 24 11.29Z"/>
-          </svg>
-          Зареєструватися через Google
-        </button>
-        <p class="registration-note" id="registration-note">Реєстрація незабаром стане доступною.</p>
+        <div id="registration-account" hidden>
+          <p>Ви увійшли як <strong id="registration-account-email" data-no-translate></strong>.</p>
+          <button class="registration-continue" id="registration-logout" type="button">Вийти з акаунта</button>
+        </div>
+        <p class="registration-note" id="registration-note" role="status" aria-live="polite">Пароль не потрібен. Підтвердьте свою електронну пошту кодом із листа.</p>
+        <noscript><p>Для входу увімкніть JavaScript у браузері.</p></noscript>
         <a class="registration-back" href="../index.html">← Повернутися до афіші</a>
       </section>
     </main>

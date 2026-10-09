@@ -7,6 +7,11 @@
     /* The theme also works when storage is unavailable. */
   }
   document.documentElement.dataset.theme = theme;
+  try {
+    document.documentElement.lang = localStorage.getItem("cinema-language") === "en" ? "en" : "uk";
+  } catch {
+    document.documentElement.lang = "uk";
+  }
   document.querySelector('meta[name="theme-color"]').content =
     theme === "light" ? "#f7f7f9" : "#101014";
 })();

@@ -86,8 +86,27 @@
 .registration-google svg {
   flex-shrink: 0;
 }
-.registration-panel button[aria-disabled="true"] {
-  cursor: default;
+.registration-panel [hidden] {
+  display: none !important;
+}
+.registration-panel button:disabled {
+  cursor: wait;
+  opacity: .6;
+}
+.registration-code-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.registration-secondary {
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  text-decoration: underline;
+}
+.registration-note[data-error="true"] {
+  color: var(--accent);
 }
 .registration-note {
   color: var(--muted);

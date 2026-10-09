@@ -13,9 +13,26 @@
           <a href="${root}index.html#movies">Афіша</a><a href="${root}index.html#premieres">Рекомендуємо</a><a href="${root}index.html#about">Кінотеатр</a>
         </div>
         <div class="nav-right">
-          <span class="location"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Київ</span>
+          <a class="location" href="${root}index.html#cinemas" aria-label="Знайти кінотеатри поруч"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Кіно поруч</a>
           <a class="header-action" href="${root}index.html#movies">Обрати сеанс</a>
-          <a class="header-registration" href="${root}pages/register.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/></svg><span>Реєстрація</span></a>
+          <button class="header-registration settings-toggle" type="button" aria-label="Налаштування" aria-haspopup="dialog" aria-controls="site-settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--bg)"/><circle cx="15" cy="17" r="3" fill="var(--bg)"/></svg><span>Налаштування</span></button>
+        </div>
+        <details class="mobile-menu">
+          <summary aria-label="Відкрити меню">
+            <span></span><span></span>
+          </summary>
+          <div class="menu-panel">
+            <a href="${root}index.html#movies">Афіша</a><a href="${root}index.html#premieres">Рекомендуємо</a
+            ><a href="${root}index.html#cinemas">Кіно поруч</a><a href="${root}index.html#about">Про кінотеатр</a>
+          </div>
+        </details>
+      </nav>
+    </header>
+    <dialog class="settings-dialog" id="site-settings" aria-labelledby="settings-title">
+      <div class="settings-heading"><h2 id="settings-title">Налаштування</h2><form method="dialog"><button class="settings-close" aria-label="Закрити">×</button></form></div>
+      <a class="button-primary settings-registration" href="${root}pages/register.html">Реєстрація</a>
+      <p class="settings-auth-status" role="status" aria-live="polite" hidden></p>
+      <div class="settings-row"><span>Зміна теми</span>
         <button
           class="theme-toggle"
           type="button"
@@ -31,18 +48,13 @@
             <svg class="theme-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.5 14A9 9 0 0 1 10 3.5 9 9 0 1 0 20.5 14Z"/></svg>
           </span>
         </button>
-        </div>
-        <details class="mobile-menu">
-          <summary aria-label="Відкрити меню">
-            <span></span><span></span>
-          </summary>
-          <div class="menu-panel">
-            <a href="${root}index.html#movies">Афіша</a><a href="${root}index.html#premieres">Рекомендуємо</a
-            ><a href="${root}index.html#about">Про кінотеатр</a><a href="${root}pages/register.html">Реєстрація</a>
-          </div>
-        </details>
-      </nav>
-    </header>`;
+      </div>
+      <div class="settings-row"><span>Мова</span>
+        <button class="language-toggle" type="button" role="switch" aria-label="Англійська мова" aria-checked="false" title="Увімкнути англійську мову">
+          <span class="language-track-uk" aria-hidden="true">UA</span><span class="language-track-en" aria-hidden="true">EN</span><span class="language-thumb" aria-hidden="true">UA</span>
+        </button>
+      </div>
+    </dialog>`;
   document.querySelector(
     "[data-site-footer]"
   ).outerHTML = `    <footer class="shell">

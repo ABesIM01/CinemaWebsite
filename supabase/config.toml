@@ -1,0 +1,7 @@
+project_id = "kadr"
+
+[functions.send-tickets]
+import_map = "./functions/send-tickets/deno.json"
+# The handler validates the user's token with Supabase Auth on every request.
+# This also supports projects using asymmetric JWT signing keys.
+verify_jwt = false

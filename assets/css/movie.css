@@ -59,6 +59,91 @@
   max-width: 70ch;
   margin: 0;
 }
+.movie-more {
+  margin-top: 16px;
+}
+.movie-more > summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--panel);
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+}
+.movie-more > summary::-webkit-details-marker {
+  display: none;
+}
+.movie-more > summary:hover,
+.movie-more[open] > summary {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.movie-more > summary span {
+  font-size: 26px;
+  line-height: 1;
+}
+.movie-more-panel {
+  margin-top: 12px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+.movie-more-panel h3 {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 650;
+}
+.movie-facts {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 20px;
+  font-size: 13px;
+}
+.movie-facts > div {
+  display: grid;
+  grid-template-columns: minmax(100px, 0.6fr) minmax(0, 1.4fr);
+  gap: 12px;
+}
+.movie-facts dt {
+  color: var(--muted);
+}
+.movie-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.movie-cast {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 24px;
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13px;
+  color: var(--muted);
+}
+.movie-cast li {
+  overflow-wrap: anywhere;
+}
+.movie-source {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 399px) {
+  .movie-facts > div,
+  .movie-cast {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
 .movie-schedule {
   padding: 24px;
   background: var(--panel);
@@ -187,6 +272,31 @@
   background: var(--bg);
   color: var(--muted);
 }
+.hall-rows .hall-seat {
+  padding: 0;
+  font-family: inherit;
+  transition: background-color 150ms, border-color 150ms, box-shadow 150ms;
+}
+.hall-rows .hall-seat:not(:disabled):hover,
+.hall-rows .hall-seat:not(:disabled):focus-visible {
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.hall-rows .hall-seat:not(:disabled):not(.hall-seat--selected):hover {
+  background: color-mix(in srgb, var(--accent) 30%, var(--panel));
+}
+.hall-seat--selected {
+  border-color: #6b7280;
+  background: #6b7280;
+  color: #fff;
+}
+.hall-rows .hall-seat:disabled {
+  cursor: not-allowed;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hall-rows .hall-seat {
+    transition: none;
+  }
+}
 .hall-seat--occupied::after {
   content: "";
   position: absolute;
@@ -226,11 +336,183 @@
   flex-shrink: 0;
   border-radius: 5px 5px 3px 3px;
 }
+.ticket-payment-actions,
+.ticket-email-actions {
+  margin-block: 20px;
+}
+.hall-payment [hidden] {
+  display: none !important;
+}
+.ticket-payment-actions .button-primary,
+.ticket-email-actions .button-primary {
+  width: 100%;
+  border: 0;
+}
+.ticket-email-actions button:disabled {
+  opacity: .65;
+}
+.ticket-status {
+  font-size: 14px;
+  color: var(--muted);
+}
+.ticket-status[data-error="true"] {
+  color: var(--accent);
+}
+.ticket-card {
+  padding: 16px;
+  margin-block: 16px;
+  border: 1px dashed var(--muted);
+  border-radius: 10px;
+  background: var(--panel);
+  overflow-wrap: anywhere;
+}
+.ticket-card p {
+  margin: 8px 0;
+}
+.ticket-card p:first-child {
+  color: var(--accent);
+}
 .hall-note {
   margin: 14px 0 0;
   color: var(--muted);
   font-size: 12px;
   line-height: 1.7;
+}
+.hall-tier {
+  margin: 0 0 4px;
+  color: var(--muted);
+  font-size: 12px;
+  text-align: center;
+}
+.hall-tier--vip {
+  margin-top: 18px;
+  color: #c79543;
+}
+.hall-row.hall-row--vip {
+  grid-template-columns: 20px repeat(2, minmax(0, 1fr)) minmax(12px, 0.7fr) repeat(2, minmax(0, 1fr)) 20px;
+}
+.hall-seat--vip {
+  aspect-ratio: 2 / 1;
+  max-height: 64px;
+  min-height: 38px;
+  border-color: #c79543;
+  border-width: 5px 7px 9px;
+  border-radius: 14px 14px 8px 8px;
+  background: color-mix(in srgb, #c79543 18%, var(--panel));
+  box-shadow: inset 0 3px 0 color-mix(in srgb, #c79543 35%, transparent);
+}
+.hall-seat--vip.hall-seat--occupied {
+  border-color: var(--line);
+  background: var(--bg);
+}
+.hall-seat--vip.hall-seat--selected {
+  border-color: #6b7280;
+  background: #6b7280;
+  box-shadow: none;
+}
+.hall-legend .hall-seat--vip {
+  width: 40px;
+  min-height: 0;
+  border-width: 3px 4px 5px;
+  border-radius: 7px 7px 4px 4px;
+}
+.hall-checkout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-top: 24px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel);
+}
+.hall-checkout[hidden] {
+  display: none;
+}
+.hall-checkout > div {
+  flex: 1 1 240px;
+  min-width: 0;
+}
+.hall-selection {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.hall-selection-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+.hall-selection-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 22px;
+  line-height: 1;
+}
+.hall-selection-more[hidden] {
+  display: none;
+}
+.hall-selection-more:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.hall-pay {
+  border: 0;
+}
+.hall-payment {
+  width: min(520px, calc(100% - 32px));
+  max-height: calc(100dvh - 48px);
+  padding: clamp(20px, 5vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: var(--panel);
+  color: var(--text);
+}
+.hall-payment::backdrop {
+  background: rgb(0 0 0 / 65%);
+}
+.hall-payment h2 {
+  margin-top: 0;
+}
+.payment-movie,
+.payment-amount {
+  font-size: 18px;
+}
+.payment-seats {
+  padding-left: 20px;
+  font-size: 14px;
+}
+.payment-seats li + li {
+  margin-top: 8px;
+}
+.hall-payment form {
+  margin-top: 24px;
+}
+.hall-payment-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.hall-proceed {
+  border: 0;
+}
+.hall-payment .button-secondary {
+  background: var(--bg);
 }
 @media (max-width: 599px) {
   .cinema-hall {
@@ -252,10 +534,18 @@
     grid-template-columns: 12px repeat(5, minmax(0, 1fr)) 10px repeat(5, minmax(0, 1fr)) 12px;
     gap: 4px;
   }
+  .hall-row.hall-row--vip {
+    grid-template-columns: 12px repeat(2, minmax(0, 1fr)) 10px repeat(2, minmax(0, 1fr)) 12px;
+  }
   .hall-seat {
     font-size: 9px;
     border-radius: 5px 5px 3px 3px;
     border-bottom-width: 3px;
+  }
+  .hall-seat--vip {
+    border-width: 4px 5px 7px;
+    border-radius: 10px 10px 6px 6px;
+    font-size: 12px;
   }
   .hall-row-number {
     font-size: 10px;

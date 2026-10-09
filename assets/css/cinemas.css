@@ -1,0 +1,118 @@
+.nearby-cinemas {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  align-items: start;
+  gap: 32px;
+  margin-top: 48px;
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.cinemas-map {
+  width: 100%;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--bg);
+  color-scheme: light;
+}
+.cinemas-map iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.cinemas-eyebrow {
+  margin: 0 0 8px;
+  color: var(--accent);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 2px;
+}
+.cinemas-content h2 {
+  margin: 0;
+  font-size: clamp(22px, 3vw, 28px);
+  line-height: 1.25;
+}
+.cinemas-description,
+.cinemas-status {
+  color: var(--muted);
+  font-size: 14px;
+}
+.cinemas-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 20px;
+  margin-top: 20px;
+}
+.cinemas-actions button {
+  border: 0;
+}
+.cinemas-actions button:disabled {
+  opacity: 0.65;
+}
+.cinemas-actions > a {
+  font-size: 13px;
+}
+.cinemas-status {
+  margin: 16px 0 0;
+}
+.cinemas-results {
+  padding: 0;
+  margin: 16px 0 0;
+  list-style: none;
+}
+.cinemas-results:empty {
+  display: none;
+}
+.cinema-result {
+  padding: 12px 0;
+  border-top: 1px solid var(--line);
+}
+.cinema-result-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+.cinema-result h3 {
+  margin: 0;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+.cinema-distance {
+  white-space: nowrap;
+  color: var(--accent);
+  font-size: 13px;
+}
+.cinema-address {
+  margin: 4px 0 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.cinema-route {
+  font-size: 13px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.cinemas-attribution {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+.cinemas-attribution a {
+  text-decoration: underline;
+}
+@media (max-width: 760px) {
+  .nearby-cinemas {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px;
+    gap: 24px;
+  }
+  .cinemas-map {
+    width: min(100%, 300px);
+    justify-self: center;
+  }
+}

@@ -3,7 +3,7 @@
   function setTheme(theme) {
     const light = theme === "light";
     document.documentElement.dataset.theme = light ? "light" : "dark";
-    const label = light ? "Увімкнути темну тему" : "Увімкнути світлу тему";
+    const label = window.cinemaI18n.t(light ? "Увімкнути темну тему" : "Увімкнути світлу тему");
     toggle.setAttribute("aria-checked", String(light));
     toggle.title = label;
     document.querySelector('meta[name="theme-color"]').content = light
@@ -29,5 +29,18 @@
     link.addEventListener("click", () => {
       document.querySelector(".mobile-menu").open = false;
     });
+  });
+  const settings = document.querySelector(".settings-dialog");
+  document.querySelector(".settings-toggle").addEventListener("click", () => settings.showModal());
+  let startedOutside = false;
+  function outside(event) {
+    const bounds = settings.getBoundingClientRect();
+    return event.target === settings && (event.clientX < bounds.left || event.clientX > bounds.right
+      || event.clientY < bounds.top || event.clientY > bounds.bottom);
+  }
+  settings.addEventListener("pointerdown", (event) => { startedOutside = outside(event); });
+  settings.addEventListener("click", (event) => {
+    if (startedOutside && outside(event)) settings.close();
+    startedOutside = false;
   });
 })();

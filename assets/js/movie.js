@@ -1,3 +1,81 @@
+// Вибір місць у демонстраційній схемі залу.
+document.querySelectorAll(".hall-rows").forEach((rows) => {
+  const hall = rows.closest(".cinema-hall");
+  const checkout = hall.querySelector(".hall-checkout");
+  const selection = hall.querySelector(".hall-selection");
+  const selectionMore = hall.querySelector(".hall-selection-more");
+  const selectionDialog = hall.querySelector(".hall-selection-dialog");
+  const pay = hall.querySelector(".hall-pay");
+  const dialog = hall.querySelector(".hall-payment:not(.hall-selection-dialog)");
+  const money = (value) => `${value.toLocaleString("uk-UA")} ₴`;
+
+  function selectedSeats() {
+    return [...rows.querySelectorAll(".hall-seat--selected")];
+  }
+
+  function total(seats) {
+    return seats.reduce((sum, seat) => sum + Number(seat.dataset.price), 0);
+  }
+
+  function updateCheckout() {
+    const seats = selectedSeats();
+    checkout.hidden = seats.length === 0;
+    const collapsed = seats.length > 4;
+    selection.textContent = collapsed ? `Вибрано місць: ${seats.length}` : seats.map((seat) => seat.dataset.seatLabel).join("; ");
+    selection.hidden = false;
+    selectionMore.hidden = !collapsed;
+    pay.textContent = `Оплатити ${money(total(seats))}`;
+  }
+
+  rows.addEventListener("click", (event) => {
+    const seat = event.target.closest("button.hall-seat");
+    if (!seat || !rows.contains(seat) || seat.disabled) return;
+    const selected = seat.classList.toggle("hall-seat--selected");
+    seat.setAttribute("aria-pressed", String(selected));
+    seat.setAttribute("aria-label", `${seat.dataset.seatLabel}, ${money(Number(seat.dataset.price))}: ${selected ? "вибране" : "вільне"}`);
+    updateCheckout();
+  });
+
+  function showOrder(targetDialog) {
+    const seats = selectedSeats();
+    if (!seats.length) return;
+    targetDialog.querySelector(".payment-movie").textContent = document.querySelector("#movie-title").textContent;
+    targetDialog.querySelector(".payment-session").textContent = hall.querySelector(".hall-session time").textContent;
+    const list = targetDialog.querySelector(".payment-seats");
+    list.replaceChildren(...seats.map((seat) => {
+      const item = document.createElement("li");
+      item.textContent = `${seat.dataset.seatLabel} — ${money(Number(seat.dataset.price))}`;
+      return item;
+    }));
+    targetDialog.querySelector(".payment-total").textContent = money(total(seats));
+    targetDialog.showModal();
+  }
+  selectionMore.addEventListener("click", () => showOrder(selectionDialog));
+  pay.addEventListener("click", () => showOrder(dialog));
+  selectionDialog.querySelector(".hall-proceed").addEventListener("click", () => {
+    selectionDialog.close();
+    showOrder(dialog);
+  });
+  [selectionDialog, dialog].forEach((modal) => {
+    let startedOutside = false;
+    function isOutside(event) {
+      const bounds = modal.getBoundingClientRect();
+      return event.target === modal && (
+        event.clientX < bounds.left || event.clientX > bounds.right
+        || event.clientY < bounds.top || event.clientY > bounds.bottom
+      );
+    }
+    modal.addEventListener("pointerdown", (event) => {
+      startedOutside = isOutside(event);
+    });
+    modal.addEventListener("click", (event) => {
+      if (startedOutside && isOutside(event)) modal.close();
+      startedOutside = false;
+    });
+  });
+  updateCheckout();
+});
+
 // YouTube IFrame Player API: автоматичне відтворення без звуку.
 (() => {
   const section = document.querySelector(".movie-trailer");
@@ -66,6 +144,7 @@
           iframe.title = `Трейлер — ${
             document.querySelector("#movie-title").textContent
           }`;
+          iframe.removeAttribute("allowfullscreen");
           iframe.setAttribute(
             "allow",
             "autoplay; encrypted-media; picture-in-picture; fullscreen"

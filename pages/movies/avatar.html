@@ -14,8 +14,12 @@
     <link rel="stylesheet" href="../../assets/css/movie.css" />
     <script src="../../assets/js/theme.js"></script>
     <script src="../../assets/js/components/layout.js" defer></script>
+    <script src="../../assets/js/i18n.js" defer></script>
     <script src="../../assets/js/common.js" defer></script>
+    <script src="../../assets/js/auth-config.js" defer></script>
+    <script src="../../assets/js/auth.js" defer></script>
     <script src="../../assets/js/movie.js" defer></script>
+    <script src="../../assets/js/tickets.js" defer></script>
   </head>
   <body>
     <div data-site-header></div>
@@ -38,7 +42,6 @@
         <div class="movie-description">
           <p class="eyebrow">У прокаті · Український дубляж</p>
           <h1 id="movie-title">Аватар: Шлях води</h1>
-          <p class="genre">Фантастика, пригоди <span>192 хв</span></p>
           <section class="movie-synopsis" aria-labelledby="synopsis-title">
             <h2 id="synopsis-title">Про фільм</h2>
             <p>
@@ -46,6 +49,29 @@
               серед морського народу Пандори. На них чекає знайомство з океаном
               та нові випробування.
             </p>
+            <details class="movie-more">
+              <summary aria-label="Більше інформації про фільм" title="Більше інформації про фільм" aria-controls="movie-more-panel"><span aria-hidden="true">⋯</span></summary>
+              <div class="movie-more-panel" id="movie-more-panel">
+                <h3>Деталі фільму</h3>
+                <dl class="movie-facts">
+                  <div><dt>Оригінальна назва</dt><dd lang="en">Avatar: The Way of Water</dd></div>
+                  <div><dt>Рік виходу</dt><dd>2022</dd></div>
+                  <div><dt>Режисер</dt><dd>Джеймс Кемерон</dd></div>
+                  <div><dt>Тривалість</dt><dd>192 хв (3 год 12 хв)</dd></div>
+                  <div><dt>Жанр</dt><dd>Фантастика, пригоди</dd></div>
+                </dl>
+                <h3>Основні актори</h3>
+                <ul class="movie-cast">
+                  <li>Сем Вортінгтон</li>
+                  <li>Зої Салдана</li>
+                  <li>Сіґурні Вівер</li>
+                  <li>Стівен Ленґ</li>
+                  <li>Кейт Вінслет</li>
+                  <li>Кліфф Кертіс</li>
+                </ul>
+                <a class="movie-source" href="https://www.avatar.com/movies/avatar-the-way-of-water" target="_blank" rel="noopener noreferrer">Офіційна сторінка фільму ↗</a>
+              </div>
+            </details>
           </section>
           <section class="movie-schedule" aria-labelledby="session-title">
             <h2 id="session-title">Розклад сеансів</h2>
@@ -58,10 +84,10 @@
                 <span class="session-label">СЕАНС</span><time>21:15</time>
               </div>
               <div>
-                <span class="session-label">ВІЛЬНО</span><span>24 місця</span>
+                <span class="session-label">ВІЛЬНО</span><span>20 місць</span>
               </div>
               <div>
-                <span class="session-label">КВИТОК</span
+                <span class="session-label">ЗВИЧАЙНЕ</span
                 ><strong>240 <small>₴</small></strong>
               </div>
             </div>
@@ -75,7 +101,7 @@
           >
         </div>
       </article>
-      <section class="cinema-hall" id="cinema-hall" aria-labelledby="hall-title">
+      <section class="cinema-hall" data-movie-id="avatar" id="cinema-hall" aria-labelledby="hall-title">
         <div class="hall-heading">
           <div>
             <p class="eyebrow">Схема кінозалу</p>
@@ -83,131 +109,122 @@
           </div>
           <div class="hall-session">
             <span>Сеанс <strong><time>21:15</time></strong></span>
-            <span>Вільних місць: <strong>24</strong></span>
-            <span>Квиток: <strong>240 ₴</strong></span>
+            <span>Вільних місць: <strong>20</strong></span>
+            <span>Звичайне: <strong>240 ₴</strong></span>
+            <span>VIP: <strong>340 ₴</strong></span>
           </div>
         </div>
         <div class="hall-plan">
           <div class="hall-screen">ЕКРАН</div>
-          <div class="hall-rows" role="group" aria-label="8 рядів по 10 місць, прохід посередині">
+          <div class="hall-rows" role="group" aria-label="6 звичайних рядів по 10 місць і 2 VIP-ряди по 4 дивани, прохід посередині">
+            <p class="hall-tier">Звичайні місця · 240 ₴</p>
             <div class="hall-row" role="group" aria-label="Ряд 1">
               <span class="hall-row-number" aria-hidden="true">1</span>
-              <span class="hall-seat" aria-label="Ряд 1, місце 1: вільне">1</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 2: зайняте">2</span>
-              <span class="hall-seat" aria-label="Ряд 1, місце 3: вільне">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 4: зайняте">4</span>
-              <span class="hall-seat" aria-label="Ряд 1, місце 5: вільне">5</span>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r1-s1" data-seat-label="Ряд 1, місце 1 (звичайне)" title="Ряд 1, місце 1 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 1 (звичайне), 240 ₴: вільне" aria-pressed="false">1</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s2" data-seat-label="Ряд 1, місце 2 (звичайне)" title="Ряд 1, місце 2 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 2 (звичайне), 240 ₴: зайняте" disabled>2</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r1-s3" data-seat-label="Ряд 1, місце 3 (звичайне)" title="Ряд 1, місце 3 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 3 (звичайне), 240 ₴: вільне" aria-pressed="false">3</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s4" data-seat-label="Ряд 1, місце 4 (звичайне)" title="Ряд 1, місце 4 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 4 (звичайне), 240 ₴: зайняте" disabled>4</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r1-s5" data-seat-label="Ряд 1, місце 5 (звичайне)" title="Ряд 1, місце 5 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 5 (звичайне), 240 ₴: вільне" aria-pressed="false">5</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 6: зайняте">6</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 7: зайняте">7</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 8: зайняте">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 9: зайняте">9</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 1, місце 10: зайняте">10</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s6" data-seat-label="Ряд 1, місце 6 (звичайне)" title="Ряд 1, місце 6 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 6 (звичайне), 240 ₴: зайняте" disabled>6</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s7" data-seat-label="Ряд 1, місце 7 (звичайне)" title="Ряд 1, місце 7 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 7 (звичайне), 240 ₴: зайняте" disabled>7</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s8" data-seat-label="Ряд 1, місце 8 (звичайне)" title="Ряд 1, місце 8 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 8 (звичайне), 240 ₴: зайняте" disabled>8</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s9" data-seat-label="Ряд 1, місце 9 (звичайне)" title="Ряд 1, місце 9 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 9 (звичайне), 240 ₴: зайняте" disabled>9</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r1-s10" data-seat-label="Ряд 1, місце 10 (звичайне)" title="Ряд 1, місце 10 (звичайне) — 240 ₴" aria-label="Ряд 1, місце 10 (звичайне), 240 ₴: зайняте" disabled>10</button>
               <span class="hall-row-number" aria-hidden="true">1</span>
             </div>
             <div class="hall-row" role="group" aria-label="Ряд 2">
               <span class="hall-row-number" aria-hidden="true">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 2, місце 1: зайняте">1</span>
-              <span class="hall-seat" aria-label="Ряд 2, місце 2: вільне">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 2, місце 3: зайняте">3</span>
-              <span class="hall-seat" aria-label="Ряд 2, місце 4: вільне">4</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 2, місце 5: зайняте">5</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r2-s1" data-seat-label="Ряд 2, місце 1 (звичайне)" title="Ряд 2, місце 1 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 1 (звичайне), 240 ₴: зайняте" disabled>1</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r2-s2" data-seat-label="Ряд 2, місце 2 (звичайне)" title="Ряд 2, місце 2 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 2 (звичайне), 240 ₴: вільне" aria-pressed="false">2</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r2-s3" data-seat-label="Ряд 2, місце 3 (звичайне)" title="Ряд 2, місце 3 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 3 (звичайне), 240 ₴: зайняте" disabled>3</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r2-s4" data-seat-label="Ряд 2, місце 4 (звичайне)" title="Ряд 2, місце 4 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 4 (звичайне), 240 ₴: вільне" aria-pressed="false">4</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r2-s5" data-seat-label="Ряд 2, місце 5 (звичайне)" title="Ряд 2, місце 5 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 5 (звичайне), 240 ₴: зайняте" disabled>5</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat" aria-label="Ряд 2, місце 6: вільне">6</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 2, місце 7: зайняте">7</span>
-              <span class="hall-seat" aria-label="Ряд 2, місце 8: вільне">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 2, місце 9: зайняте">9</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 2, місце 10: зайняте">10</span>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r2-s6" data-seat-label="Ряд 2, місце 6 (звичайне)" title="Ряд 2, місце 6 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 6 (звичайне), 240 ₴: вільне" aria-pressed="false">6</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r2-s7" data-seat-label="Ряд 2, місце 7 (звичайне)" title="Ряд 2, місце 7 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 7 (звичайне), 240 ₴: зайняте" disabled>7</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r2-s8" data-seat-label="Ряд 2, місце 8 (звичайне)" title="Ряд 2, місце 8 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 8 (звичайне), 240 ₴: вільне" aria-pressed="false">8</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r2-s9" data-seat-label="Ряд 2, місце 9 (звичайне)" title="Ряд 2, місце 9 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 9 (звичайне), 240 ₴: зайняте" disabled>9</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r2-s10" data-seat-label="Ряд 2, місце 10 (звичайне)" title="Ряд 2, місце 10 (звичайне) — 240 ₴" aria-label="Ряд 2, місце 10 (звичайне), 240 ₴: зайняте" disabled>10</button>
               <span class="hall-row-number" aria-hidden="true">2</span>
             </div>
             <div class="hall-row" role="group" aria-label="Ряд 3">
               <span class="hall-row-number" aria-hidden="true">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 1: зайняте">1</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 2: зайняте">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 3: зайняте">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 4: зайняте">4</span>
-              <span class="hall-seat" aria-label="Ряд 3, місце 5: вільне">5</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s1" data-seat-label="Ряд 3, місце 1 (звичайне)" title="Ряд 3, місце 1 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 1 (звичайне), 240 ₴: зайняте" disabled>1</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s2" data-seat-label="Ряд 3, місце 2 (звичайне)" title="Ряд 3, місце 2 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 2 (звичайне), 240 ₴: зайняте" disabled>2</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s3" data-seat-label="Ряд 3, місце 3 (звичайне)" title="Ряд 3, місце 3 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 3 (звичайне), 240 ₴: зайняте" disabled>3</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s4" data-seat-label="Ряд 3, місце 4 (звичайне)" title="Ряд 3, місце 4 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 4 (звичайне), 240 ₴: зайняте" disabled>4</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r3-s5" data-seat-label="Ряд 3, місце 5 (звичайне)" title="Ряд 3, місце 5 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 5 (звичайне), 240 ₴: вільне" aria-pressed="false">5</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 6: зайняте">6</span>
-              <span class="hall-seat" aria-label="Ряд 3, місце 7: вільне">7</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 8: зайняте">8</span>
-              <span class="hall-seat" aria-label="Ряд 3, місце 9: вільне">9</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 3, місце 10: зайняте">10</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s6" data-seat-label="Ряд 3, місце 6 (звичайне)" title="Ряд 3, місце 6 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 6 (звичайне), 240 ₴: зайняте" disabled>6</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r3-s7" data-seat-label="Ряд 3, місце 7 (звичайне)" title="Ряд 3, місце 7 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 7 (звичайне), 240 ₴: вільне" aria-pressed="false">7</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s8" data-seat-label="Ряд 3, місце 8 (звичайне)" title="Ряд 3, місце 8 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 8 (звичайне), 240 ₴: зайняте" disabled>8</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r3-s9" data-seat-label="Ряд 3, місце 9 (звичайне)" title="Ряд 3, місце 9 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 9 (звичайне), 240 ₴: вільне" aria-pressed="false">9</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r3-s10" data-seat-label="Ряд 3, місце 10 (звичайне)" title="Ряд 3, місце 10 (звичайне) — 240 ₴" aria-label="Ряд 3, місце 10 (звичайне), 240 ₴: зайняте" disabled>10</button>
               <span class="hall-row-number" aria-hidden="true">3</span>
             </div>
             <div class="hall-row" role="group" aria-label="Ряд 4">
               <span class="hall-row-number" aria-hidden="true">4</span>
-              <span class="hall-seat" aria-label="Ряд 4, місце 1: вільне">1</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 2: зайняте">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 3: зайняте">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 4: зайняте">4</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 5: зайняте">5</span>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r4-s1" data-seat-label="Ряд 4, місце 1 (звичайне)" title="Ряд 4, місце 1 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 1 (звичайне), 240 ₴: вільне" aria-pressed="false">1</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s2" data-seat-label="Ряд 4, місце 2 (звичайне)" title="Ряд 4, місце 2 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 2 (звичайне), 240 ₴: зайняте" disabled>2</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s3" data-seat-label="Ряд 4, місце 3 (звичайне)" title="Ряд 4, місце 3 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 3 (звичайне), 240 ₴: зайняте" disabled>3</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s4" data-seat-label="Ряд 4, місце 4 (звичайне)" title="Ряд 4, місце 4 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 4 (звичайне), 240 ₴: зайняте" disabled>4</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s5" data-seat-label="Ряд 4, місце 5 (звичайне)" title="Ряд 4, місце 5 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 5 (звичайне), 240 ₴: зайняте" disabled>5</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 6: зайняте">6</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 7: зайняте">7</span>
-              <span class="hall-seat" aria-label="Ряд 4, місце 8: вільне">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 4, місце 9: зайняте">9</span>
-              <span class="hall-seat" aria-label="Ряд 4, місце 10: вільне">10</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s6" data-seat-label="Ряд 4, місце 6 (звичайне)" title="Ряд 4, місце 6 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 6 (звичайне), 240 ₴: зайняте" disabled>6</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s7" data-seat-label="Ряд 4, місце 7 (звичайне)" title="Ряд 4, місце 7 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 7 (звичайне), 240 ₴: зайняте" disabled>7</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r4-s8" data-seat-label="Ряд 4, місце 8 (звичайне)" title="Ряд 4, місце 8 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 8 (звичайне), 240 ₴: вільне" aria-pressed="false">8</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r4-s9" data-seat-label="Ряд 4, місце 9 (звичайне)" title="Ряд 4, місце 9 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 9 (звичайне), 240 ₴: зайняте" disabled>9</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r4-s10" data-seat-label="Ряд 4, місце 10 (звичайне)" title="Ряд 4, місце 10 (звичайне) — 240 ₴" aria-label="Ряд 4, місце 10 (звичайне), 240 ₴: вільне" aria-pressed="false">10</button>
               <span class="hall-row-number" aria-hidden="true">4</span>
             </div>
             <div class="hall-row" role="group" aria-label="Ряд 5">
               <span class="hall-row-number" aria-hidden="true">5</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 1: зайняте">1</span>
-              <span class="hall-seat" aria-label="Ряд 5, місце 2: вільне">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 3: зайняте">3</span>
-              <span class="hall-seat" aria-label="Ряд 5, місце 4: вільне">4</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 5: зайняте">5</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s1" data-seat-label="Ряд 5, місце 1 (звичайне)" title="Ряд 5, місце 1 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 1 (звичайне), 240 ₴: зайняте" disabled>1</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r5-s2" data-seat-label="Ряд 5, місце 2 (звичайне)" title="Ряд 5, місце 2 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 2 (звичайне), 240 ₴: вільне" aria-pressed="false">2</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s3" data-seat-label="Ряд 5, місце 3 (звичайне)" title="Ряд 5, місце 3 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 3 (звичайне), 240 ₴: зайняте" disabled>3</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r5-s4" data-seat-label="Ряд 5, місце 4 (звичайне)" title="Ряд 5, місце 4 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 4 (звичайне), 240 ₴: вільне" aria-pressed="false">4</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s5" data-seat-label="Ряд 5, місце 5 (звичайне)" title="Ряд 5, місце 5 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 5 (звичайне), 240 ₴: зайняте" disabled>5</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 6: зайняте">6</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 7: зайняте">7</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 8: зайняте">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 9: зайняте">9</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 5, місце 10: зайняте">10</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s6" data-seat-label="Ряд 5, місце 6 (звичайне)" title="Ряд 5, місце 6 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 6 (звичайне), 240 ₴: зайняте" disabled>6</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s7" data-seat-label="Ряд 5, місце 7 (звичайне)" title="Ряд 5, місце 7 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 7 (звичайне), 240 ₴: зайняте" disabled>7</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s8" data-seat-label="Ряд 5, місце 8 (звичайне)" title="Ряд 5, місце 8 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 8 (звичайне), 240 ₴: зайняте" disabled>8</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s9" data-seat-label="Ряд 5, місце 9 (звичайне)" title="Ряд 5, місце 9 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 9 (звичайне), 240 ₴: зайняте" disabled>9</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r5-s10" data-seat-label="Ряд 5, місце 10 (звичайне)" title="Ряд 5, місце 10 (звичайне) — 240 ₴" aria-label="Ряд 5, місце 10 (звичайне), 240 ₴: зайняте" disabled>10</button>
               <span class="hall-row-number" aria-hidden="true">5</span>
             </div>
             <div class="hall-row" role="group" aria-label="Ряд 6">
               <span class="hall-row-number" aria-hidden="true">6</span>
-              <span class="hall-seat" aria-label="Ряд 6, місце 1: вільне">1</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 6, місце 2: зайняте">2</span>
-              <span class="hall-seat" aria-label="Ряд 6, місце 3: вільне">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 6, місце 4: зайняте">4</span>
-              <span class="hall-seat" aria-label="Ряд 6, місце 5: вільне">5</span>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r6-s1" data-seat-label="Ряд 6, місце 1 (звичайне)" title="Ряд 6, місце 1 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 1 (звичайне), 240 ₴: вільне" aria-pressed="false">1</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r6-s2" data-seat-label="Ряд 6, місце 2 (звичайне)" title="Ряд 6, місце 2 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 2 (звичайне), 240 ₴: зайняте" disabled>2</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r6-s3" data-seat-label="Ряд 6, місце 3 (звичайне)" title="Ряд 6, місце 3 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 3 (звичайне), 240 ₴: вільне" aria-pressed="false">3</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r6-s4" data-seat-label="Ряд 6, місце 4 (звичайне)" title="Ряд 6, місце 4 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 4 (звичайне), 240 ₴: зайняте" disabled>4</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r6-s5" data-seat-label="Ряд 6, місце 5 (звичайне)" title="Ряд 6, місце 5 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 5 (звичайне), 240 ₴: вільне" aria-pressed="false">5</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 6, місце 6: зайняте">6</span>
-              <span class="hall-seat" aria-label="Ряд 6, місце 7: вільне">7</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 6, місце 8: зайняте">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 6, місце 9: зайняте">9</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 6, місце 10: зайняте">10</span>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r6-s6" data-seat-label="Ряд 6, місце 6 (звичайне)" title="Ряд 6, місце 6 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 6 (звичайне), 240 ₴: зайняте" disabled>6</button>
+              <button type="button" class="hall-seat" data-price="240" data-seat-id="r6-s7" data-seat-label="Ряд 6, місце 7 (звичайне)" title="Ряд 6, місце 7 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 7 (звичайне), 240 ₴: вільне" aria-pressed="false">7</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r6-s8" data-seat-label="Ряд 6, місце 8 (звичайне)" title="Ряд 6, місце 8 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 8 (звичайне), 240 ₴: зайняте" disabled>8</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r6-s9" data-seat-label="Ряд 6, місце 9 (звичайне)" title="Ряд 6, місце 9 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 9 (звичайне), 240 ₴: зайняте" disabled>9</button>
+              <button type="button" class="hall-seat hall-seat--occupied" data-price="240" data-seat-id="r6-s10" data-seat-label="Ряд 6, місце 10 (звичайне)" title="Ряд 6, місце 10 (звичайне) — 240 ₴" aria-label="Ряд 6, місце 10 (звичайне), 240 ₴: зайняте" disabled>10</button>
               <span class="hall-row-number" aria-hidden="true">6</span>
             </div>
-            <div class="hall-row" role="group" aria-label="Ряд 7">
+            <p class="hall-tier hall-tier--vip">VIP-дивани · 340 ₴ за місце</p>
+            <div class="hall-row hall-row--vip" role="group" aria-label="Ряд 7, VIP-дивани">
               <span class="hall-row-number" aria-hidden="true">7</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 1: зайняте">1</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 2: зайняте">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 3: зайняте">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 4: зайняте">4</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 5: зайняте">5</span>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r7-s1" data-seat-label="Ряд 7, місце 1 (VIP-диван)" title="Ряд 7, місце 1 (VIP-диван) — 340 ₴" aria-label="Ряд 7, місце 1 (VIP-диван), 340 ₴: зайняте" disabled>1</button>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r7-s2" data-seat-label="Ряд 7, місце 2 (VIP-диван)" title="Ряд 7, місце 2 (VIP-диван) — 340 ₴" aria-label="Ряд 7, місце 2 (VIP-диван), 340 ₴: зайняте" disabled>2</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat" aria-label="Ряд 7, місце 6: вільне">6</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 7: зайняте">7</span>
-              <span class="hall-seat" aria-label="Ряд 7, місце 8: вільне">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 7, місце 9: зайняте">9</span>
-              <span class="hall-seat" aria-label="Ряд 7, місце 10: вільне">10</span>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r7-s3" data-seat-label="Ряд 7, місце 3 (VIP-диван)" title="Ряд 7, місце 3 (VIP-диван) — 340 ₴" aria-label="Ряд 7, місце 3 (VIP-диван), 340 ₴: зайняте" disabled>3</button>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r7-s4" data-seat-label="Ряд 7, місце 4 (VIP-диван)" title="Ряд 7, місце 4 (VIP-диван) — 340 ₴" aria-label="Ряд 7, місце 4 (VIP-диван), 340 ₴: зайняте" disabled>4</button>
               <span class="hall-row-number" aria-hidden="true">7</span>
             </div>
-            <div class="hall-row" role="group" aria-label="Ряд 8">
+            <div class="hall-row hall-row--vip" role="group" aria-label="Ряд 8, VIP-дивани">
               <span class="hall-row-number" aria-hidden="true">8</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 1: зайняте">1</span>
-              <span class="hall-seat" aria-label="Ряд 8, місце 2: вільне">2</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 3: зайняте">3</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 4: зайняте">4</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 5: зайняте">5</span>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r8-s1" data-seat-label="Ряд 8, місце 1 (VIP-диван)" title="Ряд 8, місце 1 (VIP-диван) — 340 ₴" aria-label="Ряд 8, місце 1 (VIP-диван), 340 ₴: зайняте" disabled>1</button>
+              <button type="button" class="hall-seat hall-seat--vip" data-price="340" data-seat-id="r8-s2" data-seat-label="Ряд 8, місце 2 (VIP-диван)" title="Ряд 8, місце 2 (VIP-диван) — 340 ₴" aria-label="Ряд 8, місце 2 (VIP-диван), 340 ₴: вільне" aria-pressed="false">2</button>
               <span class="hall-aisle" aria-hidden="true"></span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 6: зайняте">6</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 7: зайняте">7</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 8: зайняте">8</span>
-              <span class="hall-seat" aria-label="Ряд 8, місце 9: вільне">9</span>
-              <span class="hall-seat hall-seat--occupied" aria-label="Ряд 8, місце 10: зайняте">10</span>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r8-s3" data-seat-label="Ряд 8, місце 3 (VIP-диван)" title="Ряд 8, місце 3 (VIP-диван) — 340 ₴" aria-label="Ряд 8, місце 3 (VIP-диван), 340 ₴: зайняте" disabled>3</button>
+              <button type="button" class="hall-seat hall-seat--vip hall-seat--occupied" data-price="340" data-seat-id="r8-s4" data-seat-label="Ряд 8, місце 4 (VIP-диван)" title="Ряд 8, місце 4 (VIP-диван) — 340 ₴" aria-label="Ряд 8, місце 4 (VIP-диван), 340 ₴: зайняте" disabled>4</button>
               <span class="hall-row-number" aria-hidden="true">8</span>
             </div>
           </div>
@@ -215,11 +232,55 @@
             <span>← ВИХІД</span><span>ВИХІД →</span>
           </div>
           <ul class="hall-legend" aria-label="Позначення місць">
-            <li><span class="hall-seat" aria-hidden="true"></span>Вільне місце</li>
+            <li><span class="hall-seat" aria-hidden="true"></span>Звичайне місце</li>
+            <li><span class="hall-seat hall-seat--vip" aria-hidden="true"></span>VIP-диван</li>
+            <li><span class="hall-seat hall-seat--selected" aria-hidden="true"></span>Вибране місце</li>
             <li><span class="hall-seat hall-seat--occupied" aria-hidden="true"></span>Зайняте місце</li>
           </ul>
         </div>
-        <p class="hall-note">Демонстраційна схема залу. Вибір місць і бронювання поки недоступні.</p>
+        <div class="hall-checkout" hidden>
+          <div>
+            <strong>Вибрані місця</strong>
+            <div class="hall-selection-line">
+              <p class="hall-selection" role="status" aria-live="polite"></p>
+              <button class="hall-selection-more" type="button" aria-label="Показати всі вибрані місця" aria-haspopup="dialog" aria-controls="selection-details" hidden><span aria-hidden="true">⋯</span></button>
+            </div>
+          </div>
+          <button class="button-primary hall-pay" type="button">Оплатити</button>
+        </div>
+        <dialog class="hall-payment hall-selection-dialog" id="selection-details" aria-labelledby="selection-details-title">
+          <h2 id="selection-details-title">Вибрані місця</h2>
+          <p class="payment-movie"></p>
+          <p>Сеанс: <strong class="payment-session"></strong></p>
+          <ul class="payment-seats"></ul>
+          <p class="payment-amount">Разом: <strong class="payment-total"></strong></p>
+          <form method="dialog" class="hall-payment-actions">
+            <button class="button-secondary" autofocus>Закрити</button>
+            <button class="button-primary hall-proceed" type="button">До оплати</button>
+          </form>
+        </dialog>
+        <dialog class="hall-payment" aria-labelledby="payment-title" aria-describedby="payment-note">
+          <h2 id="payment-title">Оплата квитків</h2>
+          <p class="payment-movie"></p>
+          <p>Сеанс: <strong class="payment-session"></strong></p>
+          <ul class="payment-seats"></ul>
+          <p class="payment-amount">До оплати: <strong class="payment-total"></strong></p>
+          <p class="hall-note" id="payment-note">Онлайн-оплата ще не підключена. Це попередній розрахунок вартості; місця не заброньовано.</p>
+          <div class="ticket-payment-actions">
+            <button class="button-primary hall-confirm-payment" type="button">Оплатити</button>
+            <p class="hall-note">Демонстраційна оплата: гроші не списуються.</p>
+          </div>
+          <div class="ticket-email-actions" hidden>
+            <button class="button-primary ticket-send" type="button" hidden>Надіслати квитки на пошту</button>
+            <a class="button-primary ticket-login">Увійти та отримати квитки</a>
+
+            <p class="hall-note">Демонстраційні квитки: оплата й бронювання ще не підключені.</p>
+          </div>
+          <p class="ticket-status" role="status" aria-live="polite"></p>
+          <div class="ticket-preview"></div>
+          <form method="dialog"><button class="button-secondary" autofocus>Повернутися до вибору</button></form>
+        </dialog>
+        <p class="hall-note">Натисніть на вільне місце, щоб вибрати його — воно стане сірим. Повторне натискання скасовує вибір. Кожен VIP-диван — одне просторе місце. Демонстраційна схема: вибір діє до оновлення сторінки.</p>
       </section>
       <section
         class="movie-trailer"

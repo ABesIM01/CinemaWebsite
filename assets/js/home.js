@@ -94,6 +94,7 @@
           iframe.title = `Фрагмент трейлера — ${slide.querySelector("h3").textContent}`;
           iframe.tabIndex = -1;
           iframe.setAttribute("aria-hidden", "true");
+          iframe.removeAttribute("allowfullscreen");
           iframe.setAttribute("allow", "autoplay; encrypted-media");
           iframe.setAttribute("referrerpolicy", "strict-origin-when-cross-origin");
           const resize = () => {
