@@ -17,6 +17,9 @@
 Кінотеатр|Cinema
 Кіно поруч|Nearby cinemas
 Обрати сеанс|Choose a showtime
+Оберіть час сеансу|Choose a showtime
+Зал|Hall
+Звичайне|Regular
 Реєстрація|Sign up
 Надіслати квитки на пошту|Email tickets
 Згенерувати PDF-квитки|Generate PDF tickets

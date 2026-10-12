@@ -33,7 +33,8 @@
     clearDownload();
     const seatIds = () => [...rows.querySelectorAll('button.hall-seat--selected[data-seat-id]:not(:disabled)')]
       .map((seat) => seat.dataset.seatId).sort();
-    const orderKey = () => JSON.stringify([demo ? 'demo' : session?.user?.id, hall.dataset.movieId, seatIds()]);
+    const selectedShowtime = () => hall.dataset.showtime || 'evening';
+    const orderKey = () => JSON.stringify([demo ? 'demo' : session?.user?.id, hall.dataset.movieId, selectedShowtime(), seatIds()]);
 
     function render() {
       const signedIn = !!session?.user?.email;
@@ -74,6 +75,16 @@
       }
       render();
     });
+    document.addEventListener('cinema-showtime-change', () => {
+      clearDownload();
+      preview.replaceChildren();
+      paidKey = '';
+      sentKey = '';
+      lastOrder = null;
+      message = '';
+      failed = false;
+      render();
+    });
     document.addEventListener('cinema-language-change', render);
     confirmPayment.addEventListener('click', () => {
       if (busy || !seatIds().length) return;
@@ -87,9 +98,9 @@
       const key = orderKey();
       if (key === sentKey) return;
       if (!lastOrder || lastOrder.key !== key) lastOrder = {
-        key, requestId: crypto.randomUUID(), movieId: hall.dataset.movieId, seats: seatIds(),
+        key, requestId: crypto.randomUUID(), movieId: hall.dataset.movieId, seats: seatIds(), showtime: selectedShowtime(),
       };
-      const order = { requestId: lastOrder.requestId, movieId: lastOrder.movieId, seats: lastOrder.seats };
+      const order = { requestId: lastOrder.requestId, movieId: lastOrder.movieId, seats: lastOrder.seats, showtime: lastOrder.showtime };
       const accountId = session?.user?.id;
       busy = true;
       failed = false;

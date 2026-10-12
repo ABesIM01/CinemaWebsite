@@ -745,6 +745,50 @@ body,
 .session-link:hover time {
   border-color: var(--accent);
 }
+.session-time-trigger {
+  align-self: flex-start;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.session-time-trigger time {
+  display: inline-block;
+  padding: 3px 7px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.session-time-trigger:hover time,
+.session-time-trigger:focus-visible time {
+  border-color: var(--accent);
+}
+.showtime-dialog .settings-heading {
+  margin-bottom: 12px;
+}
+.showtime-choices {
+  display: grid;
+  gap: 8px;
+}
+.showtime-choice {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  cursor: pointer;
+}
+.showtime-choice:hover,
+.showtime-choice:focus-visible,
+.showtime-choice[aria-pressed="true"] {
+  border-color: var(--accent);
+}
 .closing {
   margin-top: 64px;
   padding: 30px 0;

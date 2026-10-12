@@ -211,6 +211,10 @@
 .hall-session strong {
   color: var(--text);
 }
+.hall-number {
+  color: var(--accent);
+  font-weight: 650;
+}
 .hall-plan {
   padding: 32px clamp(12px, 4vw, 48px) 24px;
   border: 1px solid var(--line);
@@ -235,6 +239,11 @@
   border-radius: 50% 50% 0 0;
   background: linear-gradient(to bottom, color-mix(in srgb, var(--accent) 12%, transparent), transparent);
 }
+.cinema-hall[data-room="2"] .hall-screen { max-width: 410px; }
+.cinema-hall[data-room="3"] .hall-screen { max-width: 620px; }
+.cinema-hall[data-room="4"] .hall-screen { max-width: 500px; }
+.cinema-hall[data-room="3"] .hall-rows { gap: 10px; }
+.cinema-hall[data-room="4"] .hall-plan { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)); }
 .hall-rows {
   display: grid;
   gap: 14px;

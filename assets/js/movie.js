@@ -35,6 +35,13 @@ document.querySelectorAll(".hall-rows").forEach((rows) => {
     seat.setAttribute("aria-label", `${seat.dataset.seatLabel}, ${money(Number(seat.dataset.price))}: ${selected ? "вибране" : "вільне"}`);
     updateCheckout();
   });
+  document.addEventListener("cinema-showtime-change", () => {
+    selectedSeats().forEach((seat) => {
+      seat.classList.remove("hall-seat--selected");
+      seat.setAttribute("aria-pressed", "false");
+    });
+    updateCheckout();
+  });
 
   function showOrder(targetDialog) {
     const seats = selectedSeats();
