@@ -1091,10 +1091,6 @@
                      "о":  {
                                "uk":  "о",
                                "en":  "at"
-                           },
-                     "` .trim().split(\"\\n\").map((line) =\u003e line.trim().split(\"":  {
-                                                                                              "uk":  "` .trim().split(\"\\n\").map((line) =\u003e line.trim().split(\"",
-                                                                                              "en":  "\")));"
-                                                                                          }
+                           }
                  }
 }
