@@ -23,25 +23,6 @@
   font-size: 17px;
   margin: 0 0 30px;
 }
-.registration-fields {
-  display: grid;
-  gap: 14px;
-}
-.registration-fields input {
-  width: 100%;
-  min-width: 0;
-  height: 62px;
-  padding: 18px;
-  border: 1px solid var(--muted);
-  border-radius: 5px;
-  background: var(--panel);
-  color: var(--text);
-  font-size: 16px;
-}
-.registration-fields input::placeholder {
-  color: var(--muted);
-  opacity: 1;
-}
 .registration-continue {
   width: 100%;
   min-height: 54px;
@@ -52,21 +33,6 @@
   color: white;
   font-size: 18px;
   font-weight: 650;
-}
-.registration-divider {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  margin-block: 24px;
-  color: var(--muted);
-  font-size: 13px;
-}
-.registration-divider::before,
-.registration-divider::after {
-  content: "";
-  flex: 1;
-  height: 1px;
-  background: var(--line);
 }
 .registration-google {
   display: flex;
@@ -92,18 +58,6 @@
 .registration-panel button:disabled {
   cursor: wait;
   opacity: .6;
-}
-.registration-code-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-.registration-secondary {
-  padding: 8px 0;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  text-decoration: underline;
 }
 .registration-note[data-error="true"] {
   color: var(--accent);

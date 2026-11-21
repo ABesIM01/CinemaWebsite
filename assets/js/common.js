@@ -25,9 +25,27 @@
     if (event.key === "cinema-theme" || event.key === null)
       setTheme(event.newValue);
   });
+  const mobileMenu = document.querySelector(".mobile-menu");
   document.querySelectorAll(".menu-panel a").forEach((link) => {
-    link.addEventListener("click", () => {
-      document.querySelector(".mobile-menu").open = false;
+    link.addEventListener("click", () => { mobileMenu.open = false; });
+  });
+  document.addEventListener("click", (event) => {
+    if (mobileMenu.open && !mobileMenu.contains(event.target)) mobileMenu.open = false;
+  });
+  document.querySelectorAll(".movie-card").forEach((card) => {
+    const movieLink = card.querySelector(".poster-link");
+    if (!movieLink) return;
+    card.tabIndex = 0;
+    card.setAttribute("role", "link");
+    card.setAttribute("aria-label", movieLink.getAttribute("aria-label") || "Open movie details");
+    card.addEventListener("click", (event) => {
+      if (event.defaultPrevented || event.target.closest("a, button, input, select, textarea, [role=button]")) return;
+      window.location.href = movieLink.href;
+    });
+    card.addEventListener("keydown", (event) => {
+      if (event.target !== card || (event.key !== "Enter" && event.key !== " ")) return;
+      event.preventDefault();
+      window.location.href = movieLink.href;
     });
   });
   const settings = document.querySelector(".settings-dialog");

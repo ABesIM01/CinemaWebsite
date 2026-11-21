@@ -14,8 +14,8 @@
         </div>
         <div class="nav-right">
           <a class="location" href="${root}index.html#cinemas" aria-label="Знайти кінотеатри поруч"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.5"/></svg>Кіно поруч</a>
-          <a class="header-action" href="${root}index.html#movies">Обрати сеанс</a>
-          <button class="header-registration settings-toggle" type="button" aria-label="Налаштування" aria-haspopup="dialog" aria-controls="site-settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 7h16M4 17h16"/><circle cx="9" cy="7" r="3" fill="var(--bg)"/><circle cx="15" cy="17" r="3" fill="var(--bg)"/></svg><span>Налаштування</span></button>
+          <a class="header-registration auth-link" href="${root}pages/register.html" data-auth-link data-authenticated="false" aria-label="Register or sign in" title="Not signed in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4.5 21a7.5 7.5 0 0 1 15 0"/></svg><i class="auth-indicator" aria-hidden="true"></i><span>Account</span></a>
+          <button class="header-registration settings-toggle" type="button" aria-label="Налаштування" aria-haspopup="dialog" aria-controls="site-settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/><circle cx="9" cy="6" r="2" fill="var(--bg)"/><circle cx="15" cy="12" r="2" fill="var(--bg)"/><circle cx="11" cy="18" r="2" fill="var(--bg)"/></svg><span>Налаштування</span></button>
         </div>
         <details class="mobile-menu">
           <summary aria-label="Відкрити меню">
@@ -30,8 +30,6 @@
     </header>
     <dialog class="settings-dialog" id="site-settings" aria-labelledby="settings-title">
       <div class="settings-heading"><h2 id="settings-title">Налаштування</h2><form method="dialog"><button class="settings-close" aria-label="Закрити">×</button></form></div>
-      <a class="button-primary settings-registration" href="${root}pages/register.html">Реєстрація</a>
-      <p class="settings-auth-status" role="status" aria-live="polite" hidden></p>
       <div class="settings-row"><span>Зміна теми</span>
         <button
           class="theme-toggle"

@@ -4,9 +4,9 @@
 
 - `index.html` — головна сторінка та афіша.
 - `pages/movies/` — окремі сторінки шести фільмів.
-- `pages/register.html` — реєстрація та вхід за кодом із листа або через Google. Перехід доступний у вікні налаштувань. Для реальних листів і Google потрібно налаштувати Supabase за інструкцією нижче.
+- `pages/register.html` — Google sign-in and account management.
 - `assets/js/auth-config.js` — публічні налаштування проєкту Supabase.
-- `assets/js/auth.js` — надсилання та перевірка коду, Google OAuth, відновлення сесії та вихід на всіх сторінках.
+- `assets/js/auth.js` — Google OAuth, session restoration, and sign-out.
 - `assets/js/tickets.js` — оформлення тестових квитків, завантаження PDF і надсилання в поштовому режимі.
 - `assets/js/demo-tickets.mjs` — генерація PDF у браузері; локальні бібліотеки — у `assets/vendor/`.
 - `supabase/functions/send-tickets/` — серверна перевірка акаунта, каталог місць і поштовий шаблон квитка.
@@ -60,29 +60,17 @@ API-ключі, Google Cloud і платіжний обліковий запис
 
 Дизайн оновлено з орієнтиром на [Netflix](https://www.netflix.com/ua/), [Multiplex](https://multiplex.ua/) та [Prime Video](https://www.primevideo.com/storefront/home/home): компактна навігація, справжні постери, темна та світла теми, червоні кнопки дій, ряд афіші й прямі переходи до сеансів і трейлерів. На широких екранах афіша має шість колонок, на середніх — три, на вузьких — дві.
 
-## Налаштування реєстрації та входу
+## Google sign-in setup
 
-Інтеграція використовує Supabase Auth. Новий акаунт створюється при вході через Google або підтвердженні електронної пошти одноразовим кодом. Після входу «Реєстрація» в налаштуваннях замінюється на «Вийти з акаунта». Сесія відновлюється після переходів між сторінками та перезавантаження; вихід завершує сесію в цьому браузері, включно з іншими вкладками сайту.
+Account creation and sign-in use Google OAuth through Supabase Auth.
 
-1. Створіть проєкт у [Supabase](https://supabase.com/dashboard). У `assets/js/auth-config.js` заповніть `url` (Project URL) та `publishableKey` (publishable key або legacy `anon` key). Ці значення публічні; `service_role`, secret key, SMTP-пароль та Google Client Secret у файли сайту не додавайте.
-2. У Authentication → Sign In / Providers увімкніть Email і дозвольте створення нових користувачів. Налаштуйте строк дії та довжину Email OTP (форма підтримує 6–10 цифр).
-3. У Authentication → Email Templates замініть вміст **Magic Link** і **Confirm signup** на лист із кодом, наприклад:
+1. Create a Supabase project and set `url` and `publishableKey` in `assets/js/auth-config.js`. Keep secret keys out of the site files.
+2. Enable Google under Supabase Authentication → Sign In / Providers.
+3. Create a Google OAuth Web application client. Add your site origin and the Supabase callback URL (`https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback`) to its allowed URLs, then enter the client credentials in Supabase.
+4. Set the Supabase Site URL and redirect allowlist to include `pages/register.html` on localhost and production. Serve the site from localhost or HTTPS.
+5. Verify Google sign-in, page redirects, session restoration, and sign-out.
 
-   ```html
-   <h2>Вхід до КАДР</h2>
-   <p>Ваш одноразовий код: {{ .Token }}</p>
-   <p>Введіть його на сторінці реєстрації.</p>
-   ```
-
-   Без цієї зміни Supabase за замовчуванням надсилає посилання замість коду. [Документація Email OTP](https://supabase.com/docs/guides/auth/auth-email-passwordless).
-4. Підключіть власний SMTP у налаштуваннях Authentication: вбудований поштовий сервіс обмежений і призначений для тестування, тому для листів довільним користувачам потрібен власний провайдер. [Налаштування SMTP](https://supabase.com/docs/guides/auth/auth-smtp).
-5. У Authentication → URL Configuration задайте Site URL і додайте точну адресу `pages/register.html` до Redirect URLs для кожного середовища, наприклад `http://localhost:5500/pages/register.html` та `https://your-domain.example/pages/register.html`. Якщо сайт у підкаталозі, включіть його в адресу. Користуйтеся тим самим хостом і портом протягом входу.
-6. У Google Cloud створіть OAuth client типу Web application і налаштуйте consent screen. Authorized JavaScript origins — адреса сайту без шляху; Authorized redirect URI — callback Supabase `https://YOUR_PROJECT_REF.supabase.co/auth/v1/callback`. У Supabase увімкніть провайдера Google та внесіть Client ID і Client Secret у його налаштування. Якщо Google app у режимі Testing, додайте користувачів до Test users. [Документація Google OAuth](https://supabase.com/docs/guides/auth/social-login/auth-google).
-7. Запустіть сайт через Live Server на localhost або HTTPS. Введіть пошту, отримайте код, підтвердьте його. Окремо перевірте Google, перехід на сторінку фільму, перезавантаження й вихід з акаунта. Повторне надсилання коду доступне через хвилину; помилковий чи прострочений код не дає увійти.
-
-Поки конфігурація порожня, сайт показує недоступність входу й вимикає кнопки авторизації. Імітації листів або локальних акаунтів немає. SDK Supabase завантажується з jsDelivr лише після заповнення конфігурації; потрібен інтернет. Google використовує PKCE; сесію зберігає SDK Supabase у сховищі браузера. Для `file://` авторизація недоступна.
-
-Автоматична перевірка: `node --test tests/auth.test.cjs`. Тести використовують імітацію відповідей провайдера для перевірки станів форми, помилок, виходу та OAuth callback; реальні листи й Google перевіряйте після підключення свого проєкту.
+If the Supabase configuration is empty, sign-in is disabled. Google OAuth uses PKCE and the Supabase SDK stores the browser session.
 
 ## Тестові PDF-квитки та електронна пошта
 

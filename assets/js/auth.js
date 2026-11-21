@@ -1,17 +1,12 @@
 (() => {
   const root = new URL("../../", document.currentScript.src);
   const registrationUrl = new URL("pages/register.html", root).href;
-  const emailForm = document.querySelector("#registration-email-form");
-  const codeForm = document.querySelector("#registration-code-form");
-  const contact = document.querySelector("#registration-contact");
-  const code = document.querySelector("#registration-code");
-  const resend = document.querySelector("#registration-resend");
+  const registrationPanel = document.querySelector(".registration-panel");
   const google = document.querySelector(".registration-google");
   let client;
+  let initialization;
   let session = null;
   let busy = false;
-  let pendingEmail = "";
-  let resendAt = 0;
   let notice = "";
   let noticeError = false;
   const subscribers = new Set();
@@ -20,7 +15,7 @@
   function showNotice(message, error = false) {
     notice = message;
     noticeError = error;
-    const target = document.querySelector(emailForm ? "#registration-note" : ".settings-auth-status");
+    const target = registrationPanel ? document.querySelector("#registration-note") : null;
     if (target) {
       target.hidden = !message;
       target.textContent = t(message);
@@ -30,30 +25,23 @@
 
   function render() {
     subscribers.forEach((callback) => callback(session));
-    const previous = document.querySelector(".settings-registration");
-    const action = document.createElement(session ? "button" : "a");
-    action.className = "button-primary settings-registration";
-    action.textContent = t(session ? "Вийти з акаунта" : "Реєстрація");
-    if (session) {
-      action.type = "button";
-      action.disabled = busy;
-      action.addEventListener("click", logout);
-    } else action.href = registrationUrl;
-    previous?.replaceWith(action);
-    if (!emailForm) return;
+    const authLink = document.querySelector("[data-auth-link]");
+    if (authLink) {
+      const authenticated = Boolean(session);
+      authLink.dataset.authenticated = String(authenticated);
+      authLink.setAttribute("aria-label", authenticated ? "\u0412\u0438 \u0443\u0432\u0456\u0439\u0448\u043b\u0438" : "\u0420\u0435\u0454\u0441\u0442\u0440\u0430\u0446\u0456\u044f \u0442\u0430 \u0432\u0445\u0456\u0434");
+      authLink.title = authenticated ? "\u0412\u0438 \u0443\u0432\u0456\u0439\u0448\u043b\u0438" : "\u041d\u0435 \u0443\u0432\u0456\u0439\u0448\u043b\u0438";
+    }
+    if (!registrationPanel) return;
     document.querySelector("#registration-methods").hidden = !!session;
     document.querySelector("#registration-account").hidden = !session;
     document.querySelector("#registration-account-email").textContent = session?.user?.email || "";
-    document.querySelectorAll(".registration-panel button, .registration-panel input").forEach((element) => {
-      element.disabled = busy || !client;
+    document.querySelectorAll(".registration-panel button").forEach((element) => {
+      element.disabled = busy;
     });
-    resend.disabled = busy || !client || Date.now() < resendAt;
-    resend.textContent = t(Date.now() < resendAt ? "Повторне надсилання доступне через хвилину" : "Надіслати код повторно");
   }
 
   function errorMessage(error) {
-    if (error?.code === "otp_expired" || error?.code === "otp_disabled")
-      return "Код неправильний або його термін дії минув. Спробуйте ще раз чи запросіть новий код.";
     if (error?.status === 429 || error?.code?.includes("rate_limit"))
       return "Забагато спроб. Зачекайте хвилину й повторіть.";
     return "Не вдалося виконати вхід. Перевірте з’єднання та спробуйте ще раз.";
@@ -73,70 +61,21 @@
       const { error } = await client.auth.signOut({ scope: "local" });
       if (error) throw error;
       session = null;
-      pendingEmail = "";
-      if (emailForm) {
-        emailForm.reset();
-        codeForm.reset();
-        emailForm.hidden = false;
-        codeForm.hidden = true;
-        document.querySelector("#registration-alternatives").hidden = false;
-      }
       showNotice("Ви вийшли з акаунта.");
     });
   }
 
-  async function sendCode(email) {
-    const { error } = await client.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
-    if (error) throw error;
-    pendingEmail = email;
-    emailForm.hidden = true;
-    codeForm.hidden = false;
-    document.querySelector("#registration-alternatives").hidden = true;
-    document.querySelector("#registration-email").textContent = email;
-    code.value = "";
-    resendAt = Date.now() + 60000;
-    setTimeout(render, 60000);
-    showNotice("Код надіслано на вашу пошту. Перевірте також папку «Спам».");
-  }
-
-  emailForm?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    contact.value = contact.value.trim();
-    if (!emailForm.reportValidity()) return;
-    await run(() => sendCode(contact.value));
-    if (pendingEmail) code.focus();
-  });
-  codeForm?.addEventListener("submit", async (event) => {
-    event.preventDefault();
-    if (!codeForm.reportValidity() || !pendingEmail) return;
+  google?.addEventListener("click", async () => {
+    if (!client) await initialize();
+    if (!client) {
+      showNotice("Google-вхід недоступний. Перевірте налаштування Supabase та з’єднання з інтернетом.", true);
+      return;
+    }
     await run(async () => {
-      const { data, error } = await client.auth.verifyOtp({ email: pendingEmail, token: code.value.trim(), type: "email" });
+      const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: registrationUrl } });
       if (error) throw error;
-      if (!data.session) throw new Error("Missing session");
-      session = data.session;
-      code.value = "";
-      showNotice("Вхід успішний. Можна повертатися до афіші.");
     });
   });
-  resend?.addEventListener("click", async () => {
-    if (Date.now() < resendAt || !pendingEmail) return;
-    await run(() => sendCode(pendingEmail));
-    code.focus();
-  });
-  document.querySelector("#registration-change")?.addEventListener("click", () => {
-    if (busy) return;
-    pendingEmail = "";
-    code.value = "";
-    emailForm.hidden = false;
-    codeForm.hidden = true;
-    document.querySelector("#registration-alternatives").hidden = false;
-    showNotice("Введіть електронну пошту, щоб отримати код.");
-    contact.focus();
-  });
-  google?.addEventListener("click", () => run(async () => {
-    const { error } = await client.auth.signInWithOAuth({ provider: "google", options: { redirectTo: registrationUrl } });
-    if (error) throw error;
-  }));
   document.querySelector("#registration-logout")?.addEventListener("click", logout);
   document.addEventListener("cinema-language-change", () => { render(); showNotice(notice, noticeError); });
 
@@ -152,15 +91,15 @@
     });
   }
 
-  async function initialize() {
+  async function initializeOnce() {
     render();
     const config = window.cinemaAuthConfig;
     if (!config?.url || !config?.publishableKey) {
-      if (emailForm) showNotice("Вхід тимчасово недоступний. Спробуйте пізніше.", true);
+      if (registrationPanel) showNotice("Вхід тимчасово недоступний. Спробуйте пізніше.", true);
       return;
     }
     if (!/^https?:$/.test(location.protocol)) {
-      if (emailForm) showNotice("Для входу відкрийте сайт через HTTPS або localhost.", true);
+      if (registrationPanel) showNotice("Для входу відкрийте сайт через HTTPS або localhost.", true);
       return;
     }
     try {
@@ -168,7 +107,6 @@
       client = window.supabase.createClient(config.url, config.publishableKey, {
         auth: { flowType: "pkce", detectSessionInUrl: false, persistSession: true, autoRefreshToken: true },
       });
-      busy = true;
       client.auth.onAuthStateChange((_event, nextSession) => {
         session = nextSession;
         render();
@@ -194,7 +132,15 @@
       session = data.session;
     } catch {
       showNotice("Не вдалося виконати вхід. Перевірте з’єднання та спробуйте ще раз.", true);
-    } finally { busy = false; render(); }
+    } finally { render(); }
+  }
+  function initialize() {
+    if (!initialization) {
+      initialization = initializeOnce().finally(() => {
+        if (!client) initialization = null;
+      });
+    }
+    return initialization;
   }
   const ready = initialize();
   window.cinemaAuth = {
