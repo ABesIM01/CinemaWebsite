@@ -16,7 +16,7 @@ export function validateOrder(input, catalog) {
   if (typeof movieId !== 'string' || !Object.hasOwn(catalog, movieId)) throw new TicketError('invalid_order');
   const movie = catalog[movieId];
   if (showtime !== undefined && !Object.hasOwn(showtimeOptions, showtime)) throw new TicketError('invalid_order');
-  if (!Array.isArray(seats) || !seats.length || seats.length > 36 || new Set(seats).size !== seats.length) throw new TicketError('invalid_order');
+  if (!Array.isArray(seats) || !seats.length || seats.length > 5 || new Set(seats).size !== seats.length) throw new TicketError('invalid_order');
   if (seats.some((id) => typeof id !== 'string' || !Object.hasOwn(movie.seats, id))) throw new TicketError('invalid_seat');
   return { requestId: requestId.toLowerCase(), movieId, seats: [...seats].sort(), ...(showtime ? { showtime } : {}) };
 }

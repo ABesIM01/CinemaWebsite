@@ -9,6 +9,20 @@ document.querySelectorAll(".hall-rows").forEach((rows) => {
   const dialog = hall.querySelector(".hall-payment:not(.hall-selection-dialog)");
   const money = (value) => `${value.toLocaleString("uk-UA")} ₴`;
 
+  const maxTickets = 5;
+  const limitMessage = document.createElement("p");
+  limitMessage.className = "hall-limit-message";
+  limitMessage.setAttribute("role", "status");
+  limitMessage.setAttribute("aria-live", "polite");
+  limitMessage.hidden = true;
+  selection.parentElement.parentElement.append(limitMessage);
+
+  function updateLimitMessage() {
+    limitMessage.textContent = document.documentElement.lang === "en"
+      ? "You can select up to 5 tickets per person."
+      : "Можна вибрати максимум 5 квитків на одну людину.";
+  }
+
   function selectedSeats() {
     return [...rows.querySelectorAll(".hall-seat--selected")];
   }
@@ -30,9 +44,15 @@ document.querySelectorAll(".hall-rows").forEach((rows) => {
   rows.addEventListener("click", (event) => {
     const seat = event.target.closest("button.hall-seat");
     if (!seat || !rows.contains(seat) || seat.disabled) return;
+    if (!seat.classList.contains("hall-seat--selected") && selectedSeats().length >= maxTickets) {
+      updateLimitMessage();
+      limitMessage.hidden = false;
+      return;
+    }
     const selected = seat.classList.toggle("hall-seat--selected");
     seat.setAttribute("aria-pressed", String(selected));
     seat.setAttribute("aria-label", `${seat.dataset.seatLabel}, ${money(Number(seat.dataset.price))}: ${selected ? "вибране" : "вільне"}`);
+    limitMessage.hidden = true;
     updateCheckout();
   });
   document.addEventListener("cinema-showtime-change", () => {
@@ -40,8 +60,10 @@ document.querySelectorAll(".hall-rows").forEach((rows) => {
       seat.classList.remove("hall-seat--selected");
       seat.setAttribute("aria-pressed", "false");
     });
+    limitMessage.hidden = true;
     updateCheckout();
   });
+  document.addEventListener("cinema-language-change", updateLimitMessage);
 
   function showOrder(targetDialog) {
     const seats = selectedSeats();

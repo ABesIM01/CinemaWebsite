@@ -454,6 +454,11 @@
   color: var(--muted);
   overflow-wrap: anywhere;
 }
+.hall-limit-message {
+  margin: 8px 0 0;
+  color: var(--accent);
+  font-size: 13px;
+}
 .hall-selection-line {
   display: flex;
   align-items: center;
